@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>habitos</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+  </head>
+  <body>
+    <div class='main'>
+      <h1>HÁBITOS</h1>
+      <div class='content'>
+        <div class='form_container'>
+          <h2>Inicio de sesion</h2>
+          <form method="POST" action="{% url 'index' %}">
+              {% csrf_token %}
+              {{ login_form.username }}
+              {{ login_form.password }}
+              <button class='btn' type="submit" name="login">Iniciar sesión</button>
+          </form>
+        </div>
+        <div class="line"></div>
+        <div class='form_container'>
+          <h2>Registro</h2>
+          <form method="POST" action="{% url 'index' %}">
+              {% csrf_token %}
+              {{ register_form.email }}
+              {{ register_form.password }}
+              {{ register_form.password_confirm }}
+              <button class='btn' type="submit" name="register">Registrarse</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+
+</html>
