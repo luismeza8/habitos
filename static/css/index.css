@@ -48,8 +48,8 @@ form {
 
 .form-control {
   background-color: #F7F7F7;
-  width: 50%;
-  border: 2px solid black;
+  width: 85%;
+  border: 2px solid #dcdcdc;
   margin: 1rem 0;
   padding: 1rem;
   border-radius: 2rem;

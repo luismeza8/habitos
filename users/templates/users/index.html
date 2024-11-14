@@ -1,6 +1,58 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hábitos</title>
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+  <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 font-inter">
+  <div class="min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-5xl bg-white shadow-lg rounded-lg overflow-hidden">
+      <header class="bg-gradient-to-r from-teal-500 to-blue-500 p-6 text-center">
+        <h1 class="text-3xl font-semibold text-white">HÁBITOS</h1>
+      </header>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-6">
+        <!-- Inicio de sesión -->
+        <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+          <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center">Inicio de Sesión</h2>
+          <form method="POST" action="{% url 'index' %}" class="space-y-4">
+            <form method="POST" action="{% url 'index' %}">
+              {% csrf_token %}
+              {{ login_form.username }}
+              {{ login_form.password }}
+              <button class='btn' type="submit" name="login">Iniciar sesión</button>
+            </form>
+          </form>
+        </div>
+        <!-- Registro -->
+        <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+          <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center">Registro</h2>
+          <form method="POST" action="{% url 'index' %}">
+            {% csrf_token %}
+            {{ register_form.email }}
+            {{ register_form.password }}
+            {{ register_form.password_confirm }}
+            <button class='btn' type="submit" name="register">Registrarse</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.tailwindcss.com"></script>
+</body>
+
+</html>
+
+
+
+<!-- Documento Original
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,3 +89,5 @@
   </body>
 
 </html>
+
+-->
