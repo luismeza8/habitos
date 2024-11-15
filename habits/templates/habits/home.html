@@ -13,11 +13,18 @@
             <button class="bg-white text-blue-500 p-2 rounded-full">
                 <img width="24" height="24" src="https://img.icons8.com/external-tal-revivo-bold-tal-revivo/24/228BE6/external-online-account-logout-with-arrow-direction-mark-login-bold-tal-revivo.png" alt="external-online-account-logout-with-arrow-direction-mark-login-bold-tal-revivo"/>
             </button>
-            
-            
         </div>
         <div class="bg-white p-4 rounded-b-lg shadow-lg">
             <div class="flex items-center mb-4">
+          <form class='flex' method='post' action="{% url 'crear_habito' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+              <button class="bg-blue-500 text-white p-2 rounded-full ml-2"> <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                  </svg>
+              </button>
+          </form>
+          <!--
                 <input type="text" placeholder="Hábito" class="border p-2 rounded-lg flex-grow mr-2">
                 <div class="relative">
                     <select class="bg-blue-500 text-white p-2 rounded-lg appearance-none w-28">
@@ -30,11 +37,7 @@
                         <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M7 10l5 5 5-5H7z"/></svg>
                     </div>
                 </div>
-                <button class="bg-blue-500 text-white p-2 rounded-full ml-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                    </svg>
-                </button>
+          -->
             </div>
             
             
@@ -52,6 +55,25 @@
                     </tr>
                 </thead>
                 <tbody id="habit-table-body">
+            {% for habito in habitos %}
+              <tr>
+                <td class='p-2 flex items-center'>
+                  <button class="bg-blue-500 text-white p-1 rounded-full mr-2">
+                      <img width="32" height="32" src="https://img.icons8.com/external-kiranshastry-solid-kiranshastry/64/FFFFFF/external-pencil-interface-kiranshastry-solid-kiranshastry.png" alt="external-pencil-interface-kiranshastry-solid-kiranshastry"/>
+                  </button>
+                  <button class="bg-red-600 text-white p-2 rounded-full mr-2">
+                      <img width="24" height="24" src="https://img.icons8.com/external-flaticons-flat-flat-icons/64/external-trash-web-flaticons-flat-flat-icons-2.png" alt="external-trash-web-flaticons-flat-flat-icons-2"/>
+                  </button>
+                  {{ habito.titulo }}
+                </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              </tr>
+            {% endfor %}
                     <!-- Filas de la tabla generadas dinámicamente -->
                 </tbody>
             </table>
@@ -60,6 +82,7 @@
 
     <!-- ESTE SERIA UN EJEMPLO DE COMO HACERLO. TOCARIA MODIFICARLO PARA QUE PUEDA CONSULTAR A LA BASE DE DATOS.-->
 
+    <!--
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Datos simulados de una base de datos
@@ -98,5 +121,6 @@
             });
         });
     </script>
+    -->
 </body>
 </html>
