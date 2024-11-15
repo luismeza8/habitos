@@ -62,7 +62,9 @@
                       <img width="32" height="32" src="https://img.icons8.com/external-kiranshastry-solid-kiranshastry/64/FFFFFF/external-pencil-interface-kiranshastry-solid-kiranshastry.png" alt="external-pencil-interface-kiranshastry-solid-kiranshastry"/>
                   </button>
                   <button class="bg-red-600 text-white p-2 rounded-full mr-2">
+                  <a href="{% url 'borrar_habito' habito.pk %}">
                       <img width="24" height="24" src="https://img.icons8.com/external-flaticons-flat-flat-icons/64/external-trash-web-flaticons-flat-flat-icons-2.png" alt="external-trash-web-flaticons-flat-flat-icons-2"/>
+                  </a>
                   </button>
                   {{ habito.titulo }}
                 </td>
