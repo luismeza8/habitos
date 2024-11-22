@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rastreador de Hábitos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+    <div class="max-w-4xl mx-auto p-4">
+        <div
+            class="bg-gradient-to-r from-teal-500 to-blue-500 text-white p-4 rounded-t-lg flex justify-between items-center">
+            <h1 class="text-xl font-bold">Hábitos</h1>
+            <button class="bg-white text-blue-500 p-2 rounded-full">
+                <img width="24" height="24"
+                    src="https://img.icons8.com/external-tal-revivo-bold-tal-revivo/24/228BE6/external-online-account-logout-with-arrow-direction-mark-login-bold-tal-revivo.png"
+                    alt="external-online-account-logout-with-arrow-direction-mark-login-bold-tal-revivo" />
+            </button>
+        </div>
+        <div class="bg-white p-4 rounded-b-lg shadow-lg">
+            <div class="flex items-center mb-4">
+                <form class='flex' method='post' action="{% url 'crear_habito' %}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="bg-blue-500 text-white p-2 rounded-full ml-2"> <svg
+                            xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                    </button>
+                </form>
+                <!--
+                <input type="text" placeholder="Hábito" class="border p-2 rounded-lg flex-grow mr-2">
+                <div class="relative">
+                    <select class="bg-blue-500 text-white p-2 rounded-lg appearance-none w-28">
+                        <option selected>Frecuencia</option>
+                        <option value="Diaria">Diaria</option>
+                        <option value="Semanal">Semanal</option>
+                        <option value="Mensual">Mensual</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
+                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M7 10l5 5 5-5H7z"/></svg>
+                    </div>
+                </div>
+          -->
+            </div>
+
+
+            <table class="w-full text-left">
+                <thead>
+                    <tr>
+                        <th class="p-2">Hábito</th>
+                        <th class="p-2">10/11</th>
+                        <th class="p-2">11/11</th>
+                        <th class="p-2">12/11</th>
+                        <th class="p-2">13/11</th>
+                        <th class="p-2">14/11</th>
+                        <th class="p-2">15/11</th>
+                        <th class="p-2">16/11</th>
+                    </tr>
+                </thead>
+                <tbody id="habit-table-body">
+                    {% for habito in habitos %}
+                    <tr>
+                        <td class='p-2 flex items-center'>
+                            <a href="{% url 'editar_habito' habito.pk %}"
+                                class="bg-blue-500 text-white p-1 rounded-full mr-2">
+                                <img width="32" height="32"
+                                    src="https://img.icons8.com/external-kiranshastry-solid-kiranshastry/64/FFFFFF/external-pencil-interface-kiranshastry-solid-kiranshastry.png"
+                                    alt="Editar" />
+                            </a>
+                            <a href="{% url 'borrar_habito' habito.pk %}"
+                                class="bg-red-600 text-white p-2 rounded-full mr-2">
+                                <img width="24" height="24"
+                                    src="https://img.icons8.com/external-flaticons-flat-flat-icons/64/external-trash-web-flaticons-flat-flat-icons-2.png"
+                                    alt="Borrar" />
+                            </a>
+                            {{ habito.titulo }}
+                        </td>
+                        {% for dia in habito.dia_set.all %}
+                        <td class="cursor-pointer text-center" data-dia-id="{{ dia.id }}">
+                            {% if dia.realizado %}                
+                            <a href="{% url 'alternar_dia' dia.pk %}"
+                                style="display: inline-block;">
+                                <img width="32" height="32"
+                                    src="https://img.icons8.com/?size=100&id=pIPl8tqh3igN&format=png&color=000000"
+                                    alt="Alternar a no realizado" />
+                            {% else %}
+                            <a href="{% url 'alternar_dia' dia.pk %}"
+                                style="display: inline-block;">
+                                <img width="34" height="34"
+                                    src="https://img.icons8.com/?size=100&id=13903&format=png&color=000000"
+                                    alt="Alternar a realizado" />
+                            {% endif %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
+
+    <!-- ESTE SERIA UN EJEMPLO DE COMO HACERLO. TOCARIA MODIFICARLO PARA QUE PUEDA CONSULTAR A LA BASE DE DATOS.-->
+
+    <!--
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Datos simulados de una base de datos
+            const habitData = [
+                { name: "Hábito1", days: ["❌", "❌", "✔️", "❌", "✔️", "❌", "❌"] },
+                { name: "Hábito2", days: ["✔️", "❌", "❌", "✔️", "❌", "✔️", "❌"] }
+            ];
+
+            const habitTableBody = document.getElementById("habit-table-body");
+
+            // Generar filas de la tabla
+            habitData.forEach(habit => {
+                const row = document.createElement("tr");
+
+                const habitCell = document.createElement("td");
+                habitCell.className = "p-2 flex items-center";
+                habitCell.innerHTML = `
+                    <button class="bg-blue-500 text-white p-1 rounded-full mr-2">
+                        <img width="32" height="32" src="https://img.icons8.com/external-kiranshastry-solid-kiranshastry/64/FFFFFF/external-pencil-interface-kiranshastry-solid-kiranshastry.png" alt="external-pencil-interface-kiranshastry-solid-kiranshastry"/>
+                    </button>
+                    <button class="bg-red-600 text-white p-2 rounded-full mr-2">
+                        <img width="24" height="24" src="https://img.icons8.com/external-flaticons-flat-flat-icons/64/external-trash-web-flaticons-flat-flat-icons-2.png" alt="external-trash-web-flaticons-flat-flat-icons-2"/>
+                    </button>
+                    ${habit.name}
+                `;
+                row.appendChild(habitCell);
+
+                habit.days.forEach(day => {
+                    const dayCell = document.createElement("td");
+                    dayCell.className = "p-2 text-center";
+                    dayCell.textContent = day;
+                    row.appendChild(dayCell);
+                });
+
+                habitTableBody.appendChild(row);
+            });
+        });
+    </script> 
+    -->
+
+</body>
+
+</html>
