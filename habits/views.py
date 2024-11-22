@@ -29,5 +29,19 @@ def borrar_habito(request, pk):
     return redirect('home')
 
 
+#Se agrego esto...
+
 def editar_habito(request, pk):
-    pass
+    habito = Habito.objects.get(pk=pk)
+
+    if request.method == 'POST':
+        formulario_habito = HabitoForm(request.POST, instance=habito)
+
+        if formulario_habito.is_valid():
+            formulario_habito.save()
+            return redirect('home')
+
+    else:
+        formulario_habito = HabitoForm(instance=habito)
+
+    return render(request, 'habits/editar_habito.html', {'form': formulario_habito, 'habito': habito})
