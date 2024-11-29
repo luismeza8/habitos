@@ -4,6 +4,7 @@ from datetime import date, datetime, timedelta
 from habits.forms import HabitoForm
 from habits.models import Habito
 from habits.models import Dia
+import json
 
 def generar_dias(habito):
     mes_creacion = habito.creacion.month
@@ -78,3 +79,21 @@ def historial(request, pk):
     hoy = datetime.today()
     dias = habito.dia_set.filter(fecha__range=[primero_del_mes, hoy])
     return render(request, 'habits/historial.html', {'habito': habito, 'dias': dias})
+
+
+def grafica_habito(request, habit_id):
+    habit = get_object_or_404(Habito, id=habit_id)
+    
+    actividades = habit.obtener_ultimos_7_dias()
+
+    realizado_count = sum(1 for actividad in actividades if actividad.realizado)
+    no_realizado_count = len(actividades) - realizado_count
+
+    realizado_json = json.dumps(realizado_count)
+    no_realizado_json = json.dumps(no_realizado_count)
+
+    return render(request, 'habits/grafica_habito.html', {
+        'habit_id': habit_id,
+        'realizado_json': realizado_json,
+        'no_realizado_json': no_realizado_json,
+    })

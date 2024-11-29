@@ -60,6 +60,13 @@
                                     alt="Borrar" />
                             </a>
                             <a href='{% url "historial" habito.pk %}' class='m-2'>{{ habito.titulo }}</a>
+                            <a href="{% url 'grafica_habito' habito.pk %}"
+                                class="bg-green-500 text-white p-2 rounded-full mr-2">
+                                <img width="24" height="24"
+                                    src=""
+                                    alt="Gráfica" />
+                            </a>
+                            <p class='m-2'>{{ habito.titulo }}</p>
                         </td>
                         {% for dia in habito.obtener_ultimos_7_dias %}
                         <td class="cursor-pointer text-center" data-dia-id="{{ dia.id }}">
@@ -84,10 +91,6 @@
             </table>
         </div>
     </div>
-</body>
-
-</html>
-
 </body>
 
 </html>
