@@ -6,9 +6,10 @@ from habits.models import Habito
 from habits.models import Dia
 
 def generar_dias(habito):
-    # Define el rango de fechas (del 10/11 al 16/11)
-    inicio = date(2024, 11, 10)
-    fin = date(2024, 11, 28)
+    mes_creacion = habito.creacion.month
+    anio_creacion = habito.creacion.year
+    inicio = date(anio_creacion, mes_creacion, 1)
+    fin = date.today()
 
     # Crea un día por cada fecha dentro del rango
     for i in range((fin - inicio).days + 1):
@@ -68,3 +69,12 @@ def alternar_dia(_, pk):
     dia.save()
     
     return redirect('home') 
+
+
+def historial(request, pk):
+    habito = Habito.objects.get(pk=pk)
+    fecha_creacion = habito.creacion.strftime('%Y-%m-%d')
+    primero_del_mes = habito.creacion.strftime('%Y-%m-01')
+    hoy = datetime.today()
+    dias = habito.dia_set.filter(fecha__range=[primero_del_mes, hoy])
+    return render(request, 'habits/historial.html', {'habito': habito, 'dias': dias})
