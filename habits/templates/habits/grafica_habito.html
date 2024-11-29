@@ -12,13 +12,33 @@
 <body class="bg-gray-100">
     <div class="max-w-md mx-auto p-4">
         <div class="bg-gradient-to-r from-teal-500 to-blue-500 text-white p-4 rounded-t-lg flex justify-between items-center">
-            <h1 class="text-xl font-bold">Progreso del Hábito</h1>
+        <h1 class="text-xl font-bold">Progreso de {{ habito.titulo }}</h1>
             <a href="{% url 'home' %}" class="bg-white text-blue-500 p-2 rounded-full">
                 <img width="24" height="24" src="https://img.icons8.com/external-tal-revivo-bold-tal-revivo/24/228BE6/external-online-account-logout-with-arrow-direction-mark-login-bold-tal-revivo.png" alt="Volver al inicio" />
             </a>
         </div>
         <div class="bg-white p-4 rounded-b-lg shadow-lg">
-            <canvas id="habitChart" width="400" height="200"></canvas>
+            <canvas class='mb-4' id="habitChart" width="400" height="200"></canvas>
+            <div class='flex flex-wrap'>
+            {% for dia in dias %}
+            <div class='flex flex-col m-2'>
+            {{ dia.obtener_fecha }}
+            {% if dia.realizado %}                
+            <a class='flex justify-center' href="{% url 'alternar_dia' dia.pk %}"
+                style="">
+                <img width="32" height="32"
+                    src="https://img.icons8.com/?size=100&id=pIPl8tqh3igN&format=png&color=000000"
+                    alt="Alternar a no realizado" />
+            {% else %}
+            <a class='flex justify-center' href="{% url 'alternar_dia' dia.pk %}"
+                style="">
+                <img width="34" height="34"
+                    src="https://img.icons8.com/?size=100&id=13903&format=png&color=000000"
+                    alt="Alternar a realizado" />
+            {% endif %}
+            </div>
+            {% endfor %}
+            </div>
         </div>
     </div>
 

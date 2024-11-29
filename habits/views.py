@@ -7,9 +7,10 @@ from habits.models import Dia
 import json
 
 def generar_dias(habito):
-    # Define el rango de fechas (del 10/11 al 16/11)
-    inicio = date(2024, 11, 10)
-    fin = date(2024, 11, 28)
+    mes_creacion = habito.creacion.month
+    anio_creacion = habito.creacion.year
+    inicio = date(anio_creacion, mes_creacion, 1)
+    fin = date.today()
 
     # Crea un día por cada fecha dentro del rango
     for i in range((fin - inicio).days + 1):
@@ -21,7 +22,7 @@ def home(request):
     habitos = request.user.habito_set.all()
     fechas = []
 
-    for i in range(1, 8):
+    for i in range(0, 7):
         dia = (datetime.today() - timedelta(days=i)).strftime('%d/%m')
         fechas.append(dia)
 
@@ -70,6 +71,13 @@ def alternar_dia(_, pk):
     
     return redirect('home') 
 
+
+def historial(request, pk):
+    #habito = Habito.objects.get(pk=pk)
+    #return render(request, 'habits/historial.html', {'habito': habito, 'dias': dias})
+    pass
+
+
 def grafica_habito(request, habit_id):
     habit = get_object_or_404(Habito, id=habit_id)
     
@@ -81,8 +89,14 @@ def grafica_habito(request, habit_id):
     realizado_json = json.dumps(realizado_count)
     no_realizado_json = json.dumps(no_realizado_count)
 
+
+    primero_del_mes = habit.creacion.strftime('%Y-%m-01')
+    hoy = datetime.today()
+    dias = habit.dia_set.filter(fecha__range=[primero_del_mes, hoy]).order_by('-fecha')
+
     return render(request, 'habits/grafica_habito.html', {
-        'habit_id': habit_id,
+        'habito': habit,
+        'dias': dias,
         'realizado_json': realizado_json,
         'no_realizado_json': no_realizado_json,
     })
