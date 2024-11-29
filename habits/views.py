@@ -81,7 +81,7 @@ def historial(request, pk):
 def grafica_habito(request, habit_id):
     habit = get_object_or_404(Habito, id=habit_id)
     
-    actividades = habit.obtener_ultimos_7_dias()
+    actividades = habit.dia_set.all()
 
     realizado_count = sum(1 for actividad in actividades if actividad.realizado)
     no_realizado_count = len(actividades) - realizado_count
