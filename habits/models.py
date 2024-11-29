@@ -15,3 +15,6 @@ class Dia(models.Model):
     habito = models.ForeignKey(Habito, on_delete=models.CASCADE)
     fecha = models.DateField()
     realizado = models.BooleanField(default=False)
+
+    def obtener_fecha(self):
+        return self.fecha.strftime('%d/%m')
