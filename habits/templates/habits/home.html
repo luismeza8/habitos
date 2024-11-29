@@ -31,20 +31,6 @@
                         </svg>
                     </button>
                 </form>
-                <!--
-                <input type="text" placeholder="Hábito" class="border p-2 rounded-lg flex-grow mr-2">
-                <div class="relative">
-                    <select class="bg-blue-500 text-white p-2 rounded-lg appearance-none w-28">
-                        <option selected>Frecuencia</option>
-                        <option value="Diaria">Diaria</option>
-                        <option value="Semanal">Semanal</option>
-                        <option value="Mensual">Mensual</option>
-                    </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
-                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M7 10l5 5 5-5H7z"/></svg>
-                    </div>
-                </div>
-          -->
             </div>
 
 
@@ -52,13 +38,9 @@
                 <thead>
                     <tr>
                         <th class="p-2">Hábito</th>
-                        <th class="p-2">10/11</th>
-                        <th class="p-2">11/11</th>
-                        <th class="p-2">12/11</th>
-                        <th class="p-2">13/11</th>
-                        <th class="p-2">14/11</th>
-                        <th class="p-2">15/11</th>
-                        <th class="p-2">16/11</th>
+                        {% for fecha in fechas %}
+                        <th class='p-2 text-center'>{{ fecha }}</th>
+                        {% endfor %}
                     </tr>
                 </thead>
                 <tbody id="habit-table-body">
@@ -77,9 +59,9 @@
                                     src="https://img.icons8.com/external-flaticons-flat-flat-icons/64/external-trash-web-flaticons-flat-flat-icons-2.png"
                                     alt="Borrar" />
                             </a>
-                            {{ habito.titulo }}
+                            <p class='m-2'>{{ habito.titulo }}</p>
                         </td>
-                        {% for dia in habito.dia_set.all %}
+                        {% for dia in habito.obtener_ultimos_7_dias %}
                         <td class="cursor-pointer text-center" data-dia-id="{{ dia.id }}">
                             {% if dia.realizado %}                
                             <a href="{% url 'alternar_dia' dia.pk %}"
@@ -105,49 +87,6 @@
 </body>
 
 </html>
-
-    <!-- ESTE SERIA UN EJEMPLO DE COMO HACERLO. TOCARIA MODIFICARLO PARA QUE PUEDA CONSULTAR A LA BASE DE DATOS.-->
-
-    <!--
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Datos simulados de una base de datos
-            const habitData = [
-                { name: "Hábito1", days: ["❌", "❌", "✔️", "❌", "✔️", "❌", "❌"] },
-                { name: "Hábito2", days: ["✔️", "❌", "❌", "✔️", "❌", "✔️", "❌"] }
-            ];
-
-            const habitTableBody = document.getElementById("habit-table-body");
-
-            // Generar filas de la tabla
-            habitData.forEach(habit => {
-                const row = document.createElement("tr");
-
-                const habitCell = document.createElement("td");
-                habitCell.className = "p-2 flex items-center";
-                habitCell.innerHTML = `
-                    <button class="bg-blue-500 text-white p-1 rounded-full mr-2">
-                        <img width="32" height="32" src="https://img.icons8.com/external-kiranshastry-solid-kiranshastry/64/FFFFFF/external-pencil-interface-kiranshastry-solid-kiranshastry.png" alt="external-pencil-interface-kiranshastry-solid-kiranshastry"/>
-                    </button>
-                    <button class="bg-red-600 text-white p-2 rounded-full mr-2">
-                        <img width="24" height="24" src="https://img.icons8.com/external-flaticons-flat-flat-icons/64/external-trash-web-flaticons-flat-flat-icons-2.png" alt="external-trash-web-flaticons-flat-flat-icons-2"/>
-                    </button>
-                    ${habit.name}
-                `;
-                row.appendChild(habitCell);
-
-                habit.days.forEach(day => {
-                    const dayCell = document.createElement("td");
-                    dayCell.className = "p-2 text-center";
-                    dayCell.textContent = day;
-                    row.appendChild(dayCell);
-                });
-
-                habitTableBody.appendChild(row);
-            });
-        });
-    </script> 
-    -->
 
 </body>
 

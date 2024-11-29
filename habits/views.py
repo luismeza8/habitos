@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.csrf import csrf_exempt
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 from habits.forms import HabitoForm
 from habits.models import Habito
 from habits.models import Dia
@@ -8,7 +8,7 @@ from habits.models import Dia
 def generar_dias(habito):
     # Define el rango de fechas (del 10/11 al 16/11)
     inicio = date(2024, 11, 10)
-    fin = date(2024, 11, 16)
+    fin = date(2024, 11, 28)
 
     # Crea un día por cada fecha dentro del rango
     for i in range((fin - inicio).days + 1):
@@ -18,12 +18,17 @@ def generar_dias(habito):
 def home(request):
     formulario_habito = HabitoForm()
     habitos = request.user.habito_set.all()
+    fechas = []
 
-    # Genera días automáticamente para cada hábito
+    for i in range(1, 8):
+        dia = (datetime.today() - timedelta(days=i)).strftime('%d/%m')
+        fechas.append(dia)
+
     for habito in habitos:
         generar_dias(habito)
 
-    return render(request, 'habits/home.html', {'form': formulario_habito, 'habitos': habitos})
+
+    return render(request, 'habits/home.html', {'form': formulario_habito, 'habitos': habitos, 'fechas': fechas})
 
 def crear_habito(request):
     if request.method == 'POST':
@@ -37,7 +42,7 @@ def crear_habito(request):
 
     return render(request, 'habits/home.html')
 
-def borrar_habito(request, pk):
+def borrar_habito(_, pk):
     habito = Habito.objects.get(pk=pk)
     habito.delete()
     return redirect('home')
@@ -57,13 +62,9 @@ def editar_habito(request, pk):
 
     return render(request, 'habits/editar_habito.html', {'form': formulario_habito, 'habito': habito})
 
-def alternar_dia(request, pk):
+def alternar_dia(_, pk):
     dia = get_object_or_404(Dia, pk=pk)
     dia.realizado = not dia.realizado  # Alterna el estado de "realizado"
     dia.save()
     
     return redirect('home') 
-        
-
-
-        
